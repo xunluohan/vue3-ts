@@ -88,28 +88,9 @@
 
 
 <script lang='ts' setup>
+import type { FormItem } from '@/components/interface.js'
 import { ref, toRef, toRefs, watch } from 'vue'
 
-// const props = defineProps(['form', 'formItem', 'inline', 'labelWidth', 'gutter', 'justify', 'align', 'keys'])
-interface FormItem {
-  lable?: string,
-  key: string,
-  type?: string,
-  defaultValue?: any,
-  disabled?: boolean,
-  options?: Array<any>,
-  layout?: {
-    span?: number,
-    offset?: number,
-    push?: number,
-    pull?: number,
-  },
-  placeholder?: string,
-  attrs?: {
-    [propName: string]: any
-  },
-  rules?: []
-}
 interface Props {
   form: object,
   formItem: Array<FormItem>,

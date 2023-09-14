@@ -13,11 +13,12 @@ import EElements from '@/components/index'
 
 const app = createApp(App)
 
-setI18n(app)
+// setI18n(app)
 
 app.use(ElementPlus)
 app.use(EElements)
 app.use(store)
+app.use(i18n)
 app.use(router)
 app.mount('#app')
   

@@ -1,7 +1,7 @@
 // 
 <template>
   <div class="common-layout">
-    <el-container>
+    <el-container class="container">
       <el-header>
         <EHeader></EHeader>
       </el-header>
@@ -14,12 +14,16 @@
     </el-container>
   </div>
 </template>
-
 <script lang='ts' setup>
-import EHeader from './header.vue'
+import EHeader from '@/layout/header.vue'
 
 </script>
 
 <style lang='scss' scoped>
-
+.common-layout{
+  height: 100%;
+  .container{
+    height: 100%;
+  }
+}
 </style>
