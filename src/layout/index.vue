@@ -6,7 +6,7 @@
         <EHeader></EHeader>
       </el-header>
       <el-container>
-        <el-aside width="200px">Aside</el-aside>
+        <el-aside width="200px"><Menu /></el-aside>
         <el-main>
           <router-view/>
         </el-main>
@@ -16,6 +16,7 @@
 </template>
 <script lang='ts' setup>
 import EHeader from '@/layout/header.vue'
+import Menu from '@/layout/menu/index.vue'
 
 </script>
 
