@@ -10,7 +10,7 @@
 </template>
 
 <script lang='ts' setup>
-import type { FormItem } from '@/components/interface.js'
+import type { FormItem } from '@/components/interface'
 
 import { ref } from "vue";
 // import {useI18n} from 'vue-i18n'
