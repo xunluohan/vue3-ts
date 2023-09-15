@@ -16,18 +16,20 @@
         v-bind="item.layout"
       >
         <el-form-item
-          :label="item.label"
+          :label="t(item.label)"
           v-bind="item.attrs"
-          :title="item.label"
+          :title="t(item.label)"
           :prop="item.key"
         >
+          <!-- 文本框 -->
           <el-input
             v-if="item.type === 'input'"
             v-model="formData[item.key]"
             :disabled="item.disabled"
-            :placeholder="item.placeholder"
+            :placeholder="item.placeholder && t(item.placeholder)"
             @input="handleChange"
           />
+          <!-- 数字文本框 -->
           <a-input-number
             v-if="item.type === 'inputNumber'"
             v-model="formData[item.key]"
@@ -35,23 +37,25 @@
             :max="item.max"
             :disabled="item.disabled"
             :precision="item.precision"
+            :placeholder="item.placeholder && t(item.placeholder)"
             @change="handleChange"
           />
+          <!-- 下拉框 -->
           <el-select
             v-if="item.type === 'select'"
             v-model="formData[item.key]"
             clearable
             :disabled="item.disabled"
-            :placeholder="item.placeholder"
+            :placeholder="item.placeholder && t(item.placeholder)"
             v-bind="item.attrs"
             filterable
             @change="handleChange"
           >
             <el-option
               v-for="optionItem in item.options"
-              :key="optionItem[item.value] || optionItem.value"
-              :label="optionItem[item.value] || optionItem.label"
-              :value="optionItem[item.value] || optionItem.value"
+              :key="optionItem.value"
+              :label="optionItem.label"
+              :value="optionItem.value"
             />
           </el-select>
           <span
@@ -59,6 +63,7 @@
             class="form-sapn"
             :title="formData[item.key]"
           >{{ formData[item.key] }}</span>
+          <!-- 单选框 -->
           <el-radio-group
             v-if="item.type === 'radio'"
             v-model="formData[item.key]"
@@ -69,6 +74,24 @@
               :label="radioItem.value"
             >{{ radioItem.label }}</el-radio>
           </el-radio-group>
+          <!-- 多选框 -->
+          <el-checkbox-group v-if="item.type === 'radio'" v-model="formData[item.key]">
+            <el-checkbox 
+              v-for="(checkboxItem, index) in item.options"
+              :label="checkboxItem.label"
+            />
+          </el-checkbox-group>
+          <!-- 日期 -->
+          <el-date-picker
+            v-if="item.type === 'date'"
+            v-model="formData[item.key]"
+            :type="item.dateType ?? 'date'"
+            :placeholder="item.placeholder && item.placeholder"
+            :size="item.size"
+            :range-separator="t(item.attrs?.rangeSeparator)"
+            :start-placeholder="t(item.attrs?.startPlaceholder)"
+            :end-placeholder="t(item.attrs?.endPlaceholder)"
+          />
           <slot
             :name="item.type"
             :data="formData"
@@ -90,6 +113,9 @@
 <script lang='ts' setup>
 import type { FormItem } from '@/components/interface.js'
 import { ref, toRef, toRefs, watch } from 'vue'
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
 
 interface Props {
   form: object,

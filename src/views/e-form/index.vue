@@ -29,6 +29,14 @@ formItem.value = [
   { label: 'firstName1', key: 'firstName1', type: 'input', 
     layout: { span: 12 }, defaultValue: '122'
   },
+  { label: '日期', key: 'time', type: 'date', 
+    layout: { span: 12 }, dateType: 'monthrange',
+    attrs: {
+      rangeSeparator: 'to',
+      startPlaceholder: "Start month",
+      endPlaceholder: "End mo123nth"
+    }
+  },
 ]
 
 const handleChange = (formData: object) => {
