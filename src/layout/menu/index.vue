@@ -10,16 +10,20 @@
     @open="handleOpen"
     @close="handleClose"
   >
-    <el-sub-menu :index="item.path" v-for="(item, index) in route" :key="path">
-      <template #title>
-        <el-icon><location /></el-icon>
-        <span>{{ t(item.meta.title) }}</span>
-      </template>
-      <div v-if="item.children.length">
-        <MenuItem></MenuItem>
-      </div>
-      <!-- <el-menu-item index="1-1">item one</el-menu-item> -->
-    </el-sub-menu>
+    <template v-for="(item, index) in route" :key="path">
+      
+      <el-sub-menu v-if="item.children.length" :index="item.path">
+        <template #title>
+          <el-icon><location /></el-icon>
+          <span>{{ t(`menu.${item.meta.title}`) }}</span>
+        </template>
+        <MenuItem v-for="(menuItem, index) in item.children" :key="index" :route="menuItem"></MenuItem>
+        <div>
+        </div>
+        <!-- <el-menu-item index="1-1">item one</el-menu-item> -->
+      </el-sub-menu>
+      <MenuItem v-else-if="item.path !== '/'" :route="item"></MenuItem>
+    </template>
   </el-menu>
 </template>
 
