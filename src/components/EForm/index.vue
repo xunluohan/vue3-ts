@@ -115,6 +115,10 @@ import type { FormItem } from '@/components/interface.js'
 import { ref, toRef, toRefs, watch } from 'vue'
 import { useI18n } from 'vue-i18n';
 
+defineOptions({
+  name: 'EForm'
+})
+
 const { t } = useI18n()
 
 interface Props {
@@ -162,11 +166,6 @@ const handleChange = () => {
 </script>
 
 
-<script lang='ts'>
-export default {
-  name: 'EForm',
-}
-</script>
 <style lang='scss' scoped>
 .e-form{
   width: 100%;

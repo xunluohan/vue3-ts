@@ -9,6 +9,8 @@
     @handleSizeChange="handleSizeChange"
     @handleCurrentChange="handleCurrentChange"
   >
+  <template #option="{row}">
+  操作按钮</template>
   </e-table>
 </template>
 
@@ -31,7 +33,10 @@ const column = ref<Column[]>([
     type: 'expand', width: '100',label: 'e-table.index'
   },
   {
-    label: 'e-table.name', prop: 'name',width: '100px', align: 'center'
+    label: 'e-table.name', prop: 'name', align: 'center'
+  },
+  {
+    prop: 'option'
   }
 ])
 

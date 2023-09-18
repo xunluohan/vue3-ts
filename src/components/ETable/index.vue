@@ -63,6 +63,10 @@ import type { Column } from '@/components/interface'
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+defineOptions({
+  name: 'ETable'
+})
+
 const { t }  = useI18n()
 
 interface Props {
@@ -98,11 +102,6 @@ onMounted(() => {
 })
 
 
-</script>
-<script lang='ts'>
-export default {
-  name: 'ETable',
-}
 </script>
 
 <style lang='scss' scoped>
