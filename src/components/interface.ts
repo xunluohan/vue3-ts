@@ -22,3 +22,16 @@ export interface FormItem {
   };
   rules?: [];
 }
+
+export interface Column {
+  label?: string | any,
+  prop?: string,
+  width?: string | number | any,
+  type?: 'selection' | 'index' | 'expand',
+  fixed?: boolean | 'left' | 'right',
+  align?: 'left' | 'center' | 'right',
+  heanderSlot?: 'string',
+  attrs?: {
+    [propName: string]: any
+  }
+}

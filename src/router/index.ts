@@ -18,6 +18,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'From',
     component: () => import('@/views/e-form/index.vue'),
     meta: {title: 'form'}
+  },
+  {
+    path: '/table',
+    name: 'Table',
+    component: () => import('@/views/e-table/index.vue'),
+    meta: {title: 'table'}
   }
 ]
 // const store = useUserStore()

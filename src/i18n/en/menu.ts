@@ -1,4 +1,5 @@
 export default {
   form: 'Form',
-  home: 'Home'
+  home: 'Home',
+  table: 'Table'
 }
