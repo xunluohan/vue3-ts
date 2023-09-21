@@ -12,7 +12,7 @@
   >
     <template v-for="(item, index) in route" :key="path">
       
-      <el-sub-menu v-if="item.children.length" :index="item.path">
+      <el-sub-menu v-if="item.children?.length" :index="item.path">
         <template #title>
           <el-icon><location /></el-icon>
           <span>{{ t(`menu.${item.meta.title}`) }}</span>
@@ -37,12 +37,17 @@ import {
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n'
 import MenuItem from './menuItem.vue'
-// import { useUserStore } from '@/pinia/user'
-// const store = useUserStore()
+import { useUserStore } from '@/pinia/user'
+import { ref, watch } from 'vue';
+import type { RouteRecordRaw } from 'vue-router'
+const store = useUserStore()
 // console.log(store)
 const { t } = useI18n()
 const router = useRouter()
-const route = router.getRoutes()
+const route = ref<RouteRecordRaw[]>([])
+watch(() => store.userRouter, newValue => {
+  route.value = newValue
+})
 
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)

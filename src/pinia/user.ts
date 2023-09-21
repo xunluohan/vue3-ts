@@ -12,7 +12,7 @@ export const useUserStore = defineStore('user', {
   // state: () => ({ count: 0 })
   actions: {
     
-    userRouter(data: Array<RouteRecordRaw>) {
+    setUserRouter(data: Array<RouteRecordRaw>) {
       // @ts-ignore
       this.userRouter = data
     }
