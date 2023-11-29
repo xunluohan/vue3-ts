@@ -21,25 +21,34 @@
         :width="item.width"
         v-bind="item.attrs"
       >
-      <template v-if="!item.type" #header="{ $index, row }">
-        <slot v-if="item.heanderSlot" :name="item.heanderSlot" :row="row" :index="$index" :key="item.prop" :tableData="tableData"></slot>
-        <el-tooltip
-          v-else
-          class="box-item"
-          effect="dark"
-          :hide-after="0"
-          :enterable="false"
-          :content="item.label ? t(item.label) : null"
-          placement="top"
+        <template v-if="!item.type" #header="{ $index, row }">
+          <slot
+            v-if="item.headerSlot"
+            :name="item.headerSlot"
+            :row="row"
+            :index="$index"
+            :key="item.prop"
+            :tableData="tableData"
+          ></slot>
+          <el-tooltip
+            v-else
+            class="box-item"
+            effect="dark"
+            :hide-after="0"
+            :enterable="false"
+            :content="item.label ? t(item.label) : null"
+            placement="top"
           >
-          <div style="width: 100%" class="one-line-ellipsis">
-            {{ item.label ? t(item.label) : null }}
-          </div>
-        </el-tooltip>
-      </template>
-      <template v-if="!item.type" #default="{ $index, row }">
-        <slot :name="item.prop" :row="row" :index="$index" :key="item.prop">{{ row[item.prop] }}</slot>
-      </template>
+            <div style="width: 100%" class="one-line-ellipsis">
+              {{ item.label ? t(item.label) : null }}
+            </div>
+          </el-tooltip>
+        </template>
+        <template v-if="!item.type" #default="{ $index, row }">
+          <slot :name="item.prop" :row="row" :index="$index" :key="item.prop">{{
+            row[item.prop]
+          }}</slot>
+        </template>
       </el-table-column>
     </el-table>
     <!-- 分页器 -->
@@ -58,29 +67,29 @@
   </div>
 </template>
 
-<script lang='ts' setup>
-import type { Column } from '@/components/interface'
-import { onMounted, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
+<script lang="ts" setup>
+import type { Column } from "@/components/interface";
+import { onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 defineOptions({
-  name: 'ETable'
-})
+  name: "ETable",
+});
 
-const { t }  = useI18n()
+const { t } = useI18n();
 
 interface Props {
-  tableData: object[],
-  column: Column[],
-  showPagination?: boolean,
-  currentPage?: number,
-  pageSize?: number,
-  pageSizes?: number[],
-  layout?: string,
-  total?: number,
+  tableData: object[];
+  column: Column[];
+  showPagination?: boolean;
+  currentPage?: number;
+  pageSize?: number;
+  pageSizes?: number[];
+  layout?: string;
+  total?: number;
   paginationAttr?: {
-    [propName: string]: any
-  } 
+    [propName: string]: any;
+  };
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -89,25 +98,23 @@ const props = withDefaults(defineProps<Props>(), {
   pageSize: 10,
   pageSizes: () => [10, 20, 30, 40, 50, 100],
   total: 0,
-  layout: 'prev, pager, next, jumper, ->, total'
-})
+  layout: "prev, pager, next, jumper, ->, total",
+});
 
-const emit = defineEmits(['handleSizeChange', 'handleCurrentChange'])
+const emit = defineEmits(["handleSizeChange", "handleCurrentChange"]);
 
-const tableContainer = ref<object>()
-const tableHeight = ref<string | number>()
+const tableContainer = ref<object>();
+const tableHeight = ref<string | number>();
 onMounted(() => {
   // @ts-ignore
-  tableHeight.value = tableContainer.value.clientHeight - 32 - 20
-})
-
-
+  tableHeight.value = tableContainer.value.clientHeight - 32 - 20;
+});
 </script>
 
-<style lang='scss' scoped>
-.table-container{
+<style lang="scss" scoped>
+.table-container {
   height: 100%;
-  .el-table{
+  .el-table {
     margin-bottom: 20px;
   }
 }
