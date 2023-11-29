@@ -21,6 +21,7 @@ export interface FormItem {
     [propName: string]: any,
   };
   rules?: [];
+  [propName: string]: any
 }
 
 export interface Column {
