@@ -6,13 +6,12 @@
     :model="formData"
     :label-width="labelWidth"
     class="e-form"
-    :rules="rules"
     v-bind="$attrs"
   >
     <el-row>
       <el-col
-        v-for="(item,index) in formItem"
-        :key="index"
+        v-for="(item, index) in formItem"
+        :key="item.key"
         v-bind="item.layout"
       >
         <el-form-item
@@ -20,6 +19,7 @@
           v-bind="item.attrs"
           :title="t(item.label)"
           :prop="item.key"
+          :rules="item.rules"
         >
           <!-- 文本框 -->
           <el-input
@@ -62,7 +62,8 @@
             v-if="item.type === 'span'"
             class="form-sapn"
             :title="formData[item.key]"
-          >{{ formData[item.key] }}</span>
+            >{{ formData[item.key] }}</span
+          >
           <!-- 单选框 -->
           <el-radio-group
             v-if="item.type === 'radio'"
@@ -72,11 +73,15 @@
               v-for="(radioItem, index) in item.options"
               :key="index"
               :label="radioItem.value"
-            >{{ radioItem.label }}</el-radio>
+              >{{ radioItem.label }}</el-radio
+            >
           </el-radio-group>
           <!-- 多选框 -->
-          <el-checkbox-group v-if="item.type === 'radio'" v-model="formData[item.key]">
-            <el-checkbox 
+          <el-checkbox-group
+            v-if="item.type === 'radio'"
+            v-model="formData[item.key]"
+          >
+            <el-checkbox
               v-for="(checkboxItem, index) in item.options"
               :label="checkboxItem.label"
             />
@@ -92,82 +97,96 @@
             :start-placeholder="t(item.attrs?.startPlaceholder)"
             :end-placeholder="t(item.attrs?.endPlaceholder)"
           />
-          <slot
-            :name="item.type"
-            :data="formData"
-            :item="item"
-          />
+          <slot :name="item.type" :data="formData" :item="item" />
         </el-form-item>
       </el-col>
-      <slot
-        name="button"
-        :data="formData"
-      />
-
+      <slot name="button" :data="formData" />
     </el-row>
   </el-form>
 </template>
 
-
-
-<script lang='ts' setup>
-import type { FormItem } from '@/components/interface.js'
-import { ref, toRef, toRefs, watch } from 'vue'
-import { useI18n } from 'vue-i18n';
+<script lang="ts" setup>
+import type { FormItem } from "@/components/interface.js";
+import { ref, toRef, toRefs, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
 defineOptions({
-  name: 'EForm'
-})
+  name: "EForm",
+});
 
-const { t } = useI18n()
+const { t } = useI18n();
 
 interface Props {
-  form: object,
-  formItem: Array<FormItem>,
-  inline?: boolean,
-  labelWidth?: string | Number,
-  gutter?: number,
-  justify?: string,
-  align?: string,
+  form: object;
+  formItem: Array<FormItem>;
+  inline?: boolean;
+  labelWidth?: string | Number;
+  gutter?: number;
+  justify?: string;
+  align?: string;
   // tag?: string,
 }
 
 const props = withDefaults(defineProps<Props>(), {
   form: () => ({}),
-  formItem:() => [],
+  formItem: () => [],
   inline: false,
-  labelWidth: '120px',
-})
+  labelWidth: "120px",
+});
 
-const emit = defineEmits(['change'])
+const emit = defineEmits(["change"]);
+
+const form = ref();
 // const formItem = toRef(props, 'formItem')
 // // const formItem = toRef(() => props.formItem) // 3.3版本以上推荐
 // console.log(formItem, 'props')
 const rules = ref<{
-  [propName:string]: any
-}>({})
+  [propName: string]: any;
+}>({});
 const formData = ref<{
-  [propName:string]: any
-}>({})
-watch(() => props.form,(newValue) => {
-  Object.assign(formData.value, newValue)
-},{immediate:true})
-watch(() =>props.formItem,(newValue) => {
-  newValue.forEach((item) => {
-    formData.value[item.key]  = formData.value[item.key] ?? item.defaultValue
-    rules.value[item.key] = item.rules || []
-  })
-},{immediate:true})
+  [propName: string]: any;
+}>({});
+watch(
+  () => props.form,
+  (newValue) => {
+    Object.assign(formData.value, newValue);
+  },
+  { immediate: true }
+);
+watch(
+  () => props.formItem,
+  (newValue) => {
+    newValue.forEach((item) => {
+      formData.value[item.key] = formData.value[item.key] ?? item.defaultValue;
+      rules.value[item.key] = item.rules || [];
+    });
+  },
+  { immediate: true }
+);
 // 抛出数据
 const handleChange = () => {
-  emit('change', formData.value)
-}
+  emit("change", formData.value);
+};
 
+// 表单验证
+const validate = () => {
+  return form.value.validate();
+};
+
+// 重置表单
+const resetFields = () => {
+  form.value.resetFields();
+};
+
+defineExpose({
+  form,
+  validate,
+  resetFields,
+});
 </script>
 
-
-<style lang='scss' scoped>
-.e-form{
+<style lang="scss" scoped>
+.e-form {
   width: 100%;
 }
 </style>
